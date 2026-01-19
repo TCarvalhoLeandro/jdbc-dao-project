@@ -13,7 +13,7 @@ public class Program {
 
 	public static void main(String[] args) {
 		
-		SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+		/*SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
 		try {
 			Department obj = new Department(1, "Car");
 			Seller seller = new Seller(1, "Leandro", "leandro@gmail.com", new Date(stf.parse("26/03/1979").getTime()), 
@@ -24,7 +24,7 @@ public class Program {
 		}
 		catch(ParseException e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		/* Aqui eu estou instanciando a interface, dessa forma o meu
 		 * programa nao conhece a implementacao de acesso a dados no banco. 
@@ -32,6 +32,9 @@ public class Program {
 		 * fazer uma injecao de dependencia sem explicar a implementacao*/
 		SellerDAO sellerDao = DaoFactory.createSellerDao();
 		
+		Seller seller = sellerDao.findById(2);
+		
+		System.out.println(seller);
 		
 
 	}
