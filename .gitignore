@@ -1,0 +1,69 @@
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Eclipse project files
+.classpath
+.project
+.settings/
+
+# Eclipse Core
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+
+# Eclipse Launch configurations
+*.launch
+
+# Eclipse Working sets
+*.task-tags
+
+# Eclipse annotation processing
+.apt_generated/
+.factorypath
+
+# Java build output
+target/
+build/
+
+# Maven
+log/
+target/
+
+# Gradle
+.gradle/
+build/
+
+# IntelliJ IDEA (caso o projeto seja aberto lá também)
+*.iml
+.idea/
+out/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Others
+*.pdf
+
