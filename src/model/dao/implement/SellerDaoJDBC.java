@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import db.DB;
 import db.DbException;
@@ -46,6 +49,7 @@ public class SellerDaoJDBC implements SellerDAO{
 		
 	}
 
+	//METODO PARA BUSCAR UM VENDEDOR POR ID
 	@Override
 	public Seller findById(int id) {
 		PreparedStatement st = null;
@@ -65,19 +69,8 @@ public class SellerDaoJDBC implements SellerDAO{
 			 * tem um objeto no banco e fazemos a instanciação*/
 			if(rs.next()) {
 				
-				Department dep = new Department();
-				dep.setId(rs.getInt("DepartmentId"));
-				dep.setName(rs.getString("DepName"));
-				
-				Seller seller = new Seller();
-				seller.setId(rs.getInt("Id"));
-				seller.setName(rs.getString("Name"));
-				seller.setEmail(rs.getString("Email"));
-				seller.setBirthDate(rs.getDate("BirthDate"));
-				seller.setBaseSalary(rs.getDouble("BaseSalary"));
-				seller.setDepartment(dep);
-				
-				return seller;
+				Department dep = instanciaDepartment(rs);
+				return instanciaSeller(rs, dep);
 			}
 			return null;
 		}
@@ -95,5 +88,90 @@ public class SellerDaoJDBC implements SellerDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public List<Seller> findByDepartment(int id) {
+		
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement(
+					  "SELECT seller.*,department.Name as DepName "
+					+ "FROM seller INNER JOIN department "
+					+ "ON seller.DepartmentId = department.Id "
+					+ "WHERE DepartmentId = ? "
+					+ "ORDER BY Name");
+			
+			st.setInt(1, id);
+			
+			rs = st.executeQuery();
+			
+			List<Seller> sellerList = new ArrayList<Seller>();
+			
+			// Esse Map está sendo implementado para não instanciarmos varios Department iguais, já que
+			// um Department pode ter varios vendedores no mesmo Department 
+			Map<Integer, Department> map = new HashMap<Integer, Department>();
+			
+			while(rs.next()) {
+				
+				// Aqui to tentando ver se existe no Map um Department com o DepartmentId passado pelo rs
+				Department dep = map.get(rs.getInt("DepartmentId"));
+				
+				// Se o DepartmentId passado pelo rs não existir no Map vai retornar null e entao eu 
+				// instancio um Department e adiciono o Department passado pelo rs no Map
+				if(dep == null) {
+					dep = instanciaDepartment(rs);
+					map.put(rs.getInt("DepartmentId"), dep);
+				}
+				
+				Seller obj = instanciaSeller(rs, dep);
+				sellerList.add(obj);
+			}
+			return sellerList;
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	/*METODO PARA INSTANCIAR UM DEPARTMENT A PARTIR DO BANCO DE DADOS*/
+	public Department instanciaDepartment(ResultSet rs) throws SQLException {
+		
+		Department dep = new Department();
+		dep.setId(rs.getInt("DepartmentId"));
+		dep.setName(rs.getString("DepName"));
+		
+		return dep;
+	}
+	
+	/*METODO PARA INSTANCIAR UM SELLER A PARTIR DO BANCO DE DADOS*/
+	public Seller instanciaSeller(ResultSet rs, Department dep) throws SQLException {
+		
+		Seller seller = new Seller();
+		seller.setId(rs.getInt("Id"));
+		seller.setName(rs.getString("Name"));
+		seller.setEmail(rs.getString("Email"));
+		seller.setBirthDate(rs.getDate("BirthDate"));
+		seller.setBaseSalary(rs.getDouble("BaseSalary"));
+		seller.setDepartment(dep);
+		
+		return seller;
+	}
+
+
+
+	
 	
 }
