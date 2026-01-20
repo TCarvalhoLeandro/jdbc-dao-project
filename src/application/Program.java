@@ -1,7 +1,5 @@
 package application;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +31,7 @@ public class Program {
 		 * fazer uma injecao de dependencia sem explicar a implementacao*/
 		SellerDAO sellerDao = DaoFactory.createSellerDao();
 		
-		System.out.println("TESTE 01: Seller findById: ");
+		/*System.out.println("TESTE 01: Seller findById: ");
 		Seller seller = sellerDao.findById(3);
 		System.out.println(seller);
 		
@@ -47,8 +45,13 @@ public class Program {
 		List<Seller> sellerList2 = sellerDao.findAll();
 		for(Seller obj: sellerList2) {
 			System.out.println(obj);
-		}
+		}*/
 		
+		System.out.println("\nTESTE 04: Seller insert: ");
+		Department dep5 = new Department(2, null);
+		Seller seller2 = new Seller(null, "Simão Bacamarti", "simao@gmail.com", new Date(), 5000.0, dep5); 
+		sellerDao.insert(seller2);
+		System.out.println("Insert new seller id: " + seller2.getId());
 
 	}
 
