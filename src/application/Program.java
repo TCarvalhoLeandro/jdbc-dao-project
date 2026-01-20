@@ -43,6 +43,12 @@ public class Program {
 			System.out.println(obj);
 		}
 		
+		System.out.println("\nTESTE 03: Seller findAll: ");
+		List<Seller> sellerList2 = sellerDao.findAll();
+		for(Seller obj: sellerList2) {
+			System.out.println(obj);
+		}
+		
 
 	}
 
