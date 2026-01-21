@@ -75,10 +75,12 @@ public class SellerDaoJDBC implements SellerDAO{
 		finally {
 			DB.closeStatement(st);
 			
+			
 		}
 		
 	}
 
+	//METODO PARA ATUALIZAR O BANCO DE DADOS
 	@Override
 	public void update(Seller seller) {
 		
@@ -111,6 +113,7 @@ public class SellerDaoJDBC implements SellerDAO{
 		finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
+			DB.closseConnection();
 		}
 		
 		
@@ -118,7 +121,27 @@ public class SellerDaoJDBC implements SellerDAO{
 
 	@Override
 	public void deleteById(int id) {
-		// TODO Auto-generated method stub
+		
+		PreparedStatement st = null;
+		
+		try {
+			
+			st = conn.prepareStatement("DELETE FROM seller WHERE Id = ?");
+			
+			st.setInt(1, id);
+			
+			int rowsAffected = st.executeUpdate();
+			
+			System.out.println(rowsAffected);
+			
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closseConnection();
+		}
 		
 	}
 
@@ -153,6 +176,7 @@ public class SellerDaoJDBC implements SellerDAO{
 		finally {
 			DB.closeResultSet(rs);
 			DB.closeStatement(st);
+			//DB.closseConnection();
 		}
 	}
 
@@ -197,6 +221,7 @@ public class SellerDaoJDBC implements SellerDAO{
 		finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
+			DB.closseConnection();
 		}
 	}
 	
@@ -249,6 +274,7 @@ public class SellerDaoJDBC implements SellerDAO{
 		finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
+			DB.closseConnection();
 		}
 	}
 	
@@ -276,5 +302,7 @@ public class SellerDaoJDBC implements SellerDAO{
 		
 		return seller;
 	}
+	
+	
 
 }

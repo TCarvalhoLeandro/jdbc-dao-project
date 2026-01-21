@@ -46,21 +46,27 @@ public class Program {
 		List<Seller> sellerList2 = sellerDao.findAll();
 		for(Seller obj: sellerList2) {
 			System.out.println(obj);
-		}
+		}*/
 		
 		System.out.println("\nTESTE 04: Seller insert: ");
 		Department dep5 = new Department(2, null);
 		Seller seller2 = new Seller(null, "Simão Bacamarti", "simao@gmail.com", new Date(), 5000.0, dep5); 
 		sellerDao.insert(seller2);
-		System.out.println("Insert new seller id: " + seller2.getId());*/
+		System.out.println("Insert new seller id: " + seller2.getId());
+		
+		
 		
 		System.out.println("\nTESTE 05: Seller update: ");
-		Seller seller3 = sellerDao.findById(2);
-		seller3.setName("Jose Dias");
-		seller3.setEmail("jose@gmail.com");
+		Seller seller3 = sellerDao.findById(1);
+		seller3.setName("Homem Aranha");
+		seller3.setEmail("aranha@gmail.com");
 		seller3.setDepartment(new Department(4, null));
 		sellerDao.update(seller3);
 		System.out.println("Update!!");
+		
+		/*
+		System.out.println("\nTESTE 06: Seller deleteById: ");
+		sellerDao.deleteById(16);*/
 		
 		
 		
