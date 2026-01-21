@@ -12,21 +12,26 @@ public class Program2 {
 		DepartmentDAO depDao = DaoFactory.createDepartmentDao();
 		
 		
-		/*System.out.println("\nTESTE 01: Department insert: ");
+		System.out.println("\nTESTE 01: Department insert: ");
 		Department dep = new Department(0, "Food");
 		depDao.insert(dep);
-		System.out.println("Insert new seller id: " + dep.getId());*/
+		System.out.println("Insert new department id: " + dep.getId());
 		
+		/*
 		System.out.println("TESTE 02: Department findById: ");
 		Department dep2 = depDao.findById(3);
 		System.out.println(dep2);
 		
 		
-		System.out.println("\nTESTE 05: Seller update: ");
+		System.out.println("\nTESTE 03: Department update: ");
 		Department dep3 = depDao.findById(1);
 		dep3.setName("Music");
 		depDao.update(dep3);
 		System.out.println("Update!!");
+		
+		System.out.println("\nTESTE 04: Departement deleteById: ");
+		depDao.deleteById(6);
+		System.out.println("DELETE!");*/
 
 	}
 

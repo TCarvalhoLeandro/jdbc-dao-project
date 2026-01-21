@@ -24,9 +24,7 @@ public class DepartmentDaoJDBC implements DepartmentDAO{
 	//METODO PARA INSERIR NO BANCO DE DADOS
 	@Override
 	public void insert(Department department) {
-		
 		PreparedStatement st = null;
-		
 		try {
 			
 			st = conn.prepareStatement(// Comandos SQL para inserir dados no banco
@@ -37,15 +35,12 @@ public class DepartmentDaoJDBC implements DepartmentDAO{
 			
 			// O banco vai setar o nome do departement pelo que vier do objeto department
 			st.setString(1, department.getName());
-			
 			int rowsAffected = st.executeUpdate();// Executa o comando e retorna a quantidade de linhas afetadas
-			
 			if(rowsAffected > 0) {// se for maior que zero significa que inseriu
 				
 				//Essa linha serve para recuperar o ID (chave primária) que o 
 				//banco de dados acabou de criar automaticamente.
 				ResultSet rs = st.getGeneratedKeys();
-				
 				if(rs.next()) {
 					int id = rs.getInt(1);
 					department.setId(id);// Preenche o id do objeto inserido com o id que foi gerado pelo banco
@@ -55,7 +50,6 @@ public class DepartmentDaoJDBC implements DepartmentDAO{
 			else {
 				throw new DbException("Unexpected error!!");
 			}
-			
 		}
 		catch(SQLException e) {
 			throw new DbException(e.getMessage());
@@ -67,14 +61,11 @@ public class DepartmentDaoJDBC implements DepartmentDAO{
 		
 	}
 
-	
+	// METODO PARA ATUALIZAR DADOS DO BANCO 
 	@Override
 	public void update(Department department) {
-		
 		PreparedStatement st = null;
-		
 		try {
-			
 			st = conn.prepareStatement( 
 										  "UPDATE department "
 										+ "SET Name = ? "
@@ -83,7 +74,6 @@ public class DepartmentDaoJDBC implements DepartmentDAO{
 			st.setInt(2, department.getId());
 			
 			st.executeUpdate();
-			
 		}
 		catch(SQLException e) {
 			throw new DbException(e.getMessage());
@@ -96,22 +86,33 @@ public class DepartmentDaoJDBC implements DepartmentDAO{
 
 	@Override
 	public void deleteById(int id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Department findById(int id) {
-		
 		PreparedStatement st = null;
-		ResultSet rs = null;
-		
 		try {
-			
-			st = conn.prepareStatement("SELECT * FROM department WHERE Id = ?");
+			st = conn.prepareStatement("DELETE FROM department WHERE Id = ?");
 			
 			st.setInt(1, id);
 			
+			st.executeUpdate();
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
+				
+		
+		
+	}
+
+	// METODO DE BUSCA NO BANCO POR ID
+	@Override
+	public Department findById(int id) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("SELECT * FROM department WHERE Id = ?");
+			st.setInt(1, id);
 			rs = st.executeQuery();
 			
 			if(rs.next()) {
@@ -119,7 +120,6 @@ public class DepartmentDaoJDBC implements DepartmentDAO{
 				return dep;
 			}
 			return null;
-			
 		}
 		catch(SQLException e) {
 			throw new DbException(e.getMessage());
@@ -128,9 +128,6 @@ public class DepartmentDaoJDBC implements DepartmentDAO{
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
-		
-		
-		
 	}
 
 	@Override
