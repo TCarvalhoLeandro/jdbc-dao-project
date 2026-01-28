@@ -85,7 +85,7 @@ public class SellerDaoJDBC implements SellerDAO{
 	public void update(Seller seller) {
 		
 		PreparedStatement st = null;
-		ResultSet rs = null;
+		
 		
 		try {
 			
@@ -112,8 +112,8 @@ public class SellerDaoJDBC implements SellerDAO{
 		}
 		finally {
 			DB.closeStatement(st);
-			DB.closeResultSet(rs);
-			DB.closseConnection();
+			
+			
 		}
 		
 		
@@ -221,7 +221,6 @@ public class SellerDaoJDBC implements SellerDAO{
 		finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
-			DB.closseConnection();
 		}
 	}
 	
